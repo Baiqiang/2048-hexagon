@@ -80,5 +80,5 @@ Grid.prototype.removeTile = function (tile) {
 
 Grid.prototype.withinBounds = function (position) {
   return position.x >= 0 && position.x < this.size - Math.abs(position.y - 2) &&
-         position.y >= 0 && position.y < this.size;
+         position.y >= 0 && position.y < this.size && (position.x != 2 || position.y != 2);
 };

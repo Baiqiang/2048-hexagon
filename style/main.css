@@ -252,6 +252,9 @@ hr {
   border-radius: 100%;
   background: rgba(238, 228, 218, 0.35);
 }
+.grid-cell-disabled {
+  background: rgba(17, 27, 37, 0.35);
+}
 .grid-cell:last-child {
   margin-right: 0;
 }
