@@ -1,4 +1,4 @@
-# Hexagon 2048
+# Hexagonal 2048
 Another double version of [2048](http://gabrielecirulli.github.io/2048/).
 
 Made just for fun. [Play it here!](http://baiqiang.github.io/2048-hexagon/)
