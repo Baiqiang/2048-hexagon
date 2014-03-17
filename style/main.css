@@ -275,6 +275,9 @@ hr {
   border-radius: 100%;
   background: rgba(238, 228, 218, 0.35);
 }
+.grid-cell-disabled {
+  background: rgba(17, 27, 37, 0.35);
+}
 .grid-cell:last-child {
   margin-right: 0;
 }
@@ -742,7 +745,6 @@ hr {
     height: 57.5px;
     margin-right: 10px;
     float: left;
-    background: rgba(238, 228, 218, 0.35);
   }
   .grid-cell:last-child {
     margin-right: 0;
