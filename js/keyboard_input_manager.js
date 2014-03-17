@@ -23,40 +23,99 @@ KeyboardInputManager.prototype.emit = function (event, data) {
 KeyboardInputManager.prototype.listen = function () {
   var self = this;
 
-  var map = {
-    // 37: 0, // Left
-    // 39: 1, // Right
-    // 72: 0, // vim
-    // 76: 1,
-    65: 0, // A
-    68: 1, // D
+  var moveMap = {
     81: 2, // Q
     67: 3, // C
     69: 4, // E
     90: 5  // Z
   };
 
-  var holdingMap = {
-    38: 0, // Up
-    40: 2, // Down
-    75: 0, // vim keybindings
-    74: 2,
-    87: 0, // W
-    83: 2, // S
+  var horizontalMap = {
+    37: 0, // Left
+    39: 1, // Right
+    72: 0, // vim
+    76: 1,
+    65: 0, // A
+    68: 1  // D
   }
+
+  var verticalMap = {
+    38: 2, // Up
+    40: 5, // Down
+    75: 2, // vim keybindings
+    74: 5,
+    87: 2, // W
+    83: 5  // S
+  };
+
+  var holdingKeys = {};
 
   document.addEventListener("keydown", function (event) {
     var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
                     event.shiftKey;
-    var mapped    = map[event.which];
-
+    var mapped = verticalMap[event.which] || horizontalMap[event.which];
     if (!modifiers) {
+      if (mapped !== undefined) {
+        holdingKeys[event.which] = true;
+        event.preventDefault();
+      }
+      if (event.which === 32) self.restart.bind(self)(event);
+    }
+  });
+  document.addEventListener("keyup", function (event) {
+    var modifiers = event.altKey || event.ctrlKey || event.metaKey ||
+                    event.shiftKey;
+    var mapped    = moveMap[event.which];
+    if (!modifiers) {
+      if (holdingKeys[event.which]) {
+        holdingKeys[event.which] = false;
+      }
+
       if (mapped !== undefined) {
         event.preventDefault();
         self.emit("move", mapped);
+      } else {
+        var i = 0, j = 0, key, t;
+        for (t in holdingKeys) {
+          if (holdingKeys[t] == true) {
+            i++;
+            key = t;
+          }
+          j++;
+        }
+        if (i == 0) {
+          if (j == 1 && horizontalMap[event.which] !== undefined) {
+            self.emit("move", horizontalMap[event.which]);
+          }
+          if (j > 0) {
+            for (t in holdingKeys) {
+              delete holdingKeys[t];
+            }
+          }
+        } else if (i == 1) {
+          if ((verticalMap[key] !== undefined && horizontalMap[event.which] !== undefined)
+            || (horizontalMap[key] !== undefined && verticalMap[event.which] !== undefined)
+          ) {
+            direction = detectDirection(key, event.which);
+            event.preventDefault();
+            self.emit("move", direction);
+          }
+        }
       }
+    }
 
-      if (event.which === 32) self.restart.bind(self)(event);
+    function detectDirection(key1, key2) {
+      var mapped1 = verticalMap[key1] || horizontalMap[key1];
+      var mapped2 = verticalMap[key2] || horizontalMap[key2];
+      if (mapped1 > mapped2) {
+        mapped1 = mapped2 + mapped1 - (mapped2 = mapped1);
+      }
+      switch (mapped2) {
+        case 2:
+          return mapped1 * 2 + mapped2;
+        case 5:
+          return mapped2 - mapped1 * 2;
+      }
     }
   });
 
