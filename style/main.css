@@ -167,6 +167,29 @@ hr {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+.game-container:before, .game-container:after {
+  content: "";
+  position: absolute;
+  display: block;
+  height: 0;
+  width: 0;
+  border-color: #faf8ef transparent;
+  border-width: 287px;
+  border-style: solid;
+}
+.game-container:before {
+  left: 0;
+  top: 0;
+  border-right-width: 155px;
+  border-left-width: 0;
+}
+.game-container:after {
+  right: 0;
+  top: 0;
+  border-left-width: 155px;
+  border-right-width: 0;
+}
+
 .game-container .game-message {
   display: none;
   position: absolute;
@@ -626,6 +649,16 @@ hr {
     -webkit-transform-origin: 0 0;
     -moz-transform-origin: 0 0;
     transform-origin: 0 0;
+  }
+  .game-container:before {
+    border-width: 162px;
+    border-right-width: 90px;
+    border-left-width: 0;
+  }
+  .game-container:after {
+    border-width: 162px;
+    border-left-width: 90px;
+    border-right-width: 0;
   }
   .game-container .game-message {
     display: none;
