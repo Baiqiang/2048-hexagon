@@ -598,6 +598,7 @@ hr {
   }
   .container {
     width: 280px;
+    overflow-x: hidden;
     margin: 0 auto;
   }
   .score-container, .best-container {
