@@ -209,6 +209,14 @@ hr {
 .game-container .game-message a.keep-playing-button {
   display: none;
 }
+.game-container .game-message #alipay {
+  margin-top: 10px;
+}
+.game-container .game-message #alipay a {
+  background: none;
+  padding: 0;
+  margin: 0;
+}
 .game-container .game-message.game-won {
   background: rgba(237, 194, 46, 0.5);
   color: #f9f6f2;
